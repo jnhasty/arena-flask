@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-    
-    {{info}}
 
-    <hr />
-    
-    {{ channel}}
+    {% for block in blocks %}
+
+        {% if block['block_type'] == 'Image' %}
+            <h2>{{ block['block_type'] }}</h2>
+            <img src="{{block.image['original']}}" />
+            <hr />
+        {% endif %}
+        
+        {% if block['block_type'] == 'Link' %}
+            <h2>{{ block['block_type'] }}</h2>
+            <a href="{{block['remote_source_url']}}">{{block['remote_source_url']}}</a>
+            <hr />
+        {% endif %}
+        
+        {% if block['block_type'] == 'Media' %}
+            <h2>{{ block['block_type'] }}</h2>
+            {{ block['embed_html']|safe }}
+            <hr />    
+        {% endif %}
+        
+        {% if block['block_type'] == 'Text' %}
+            <h2>{{ block['block_type'] }}</h2>
+            <p>{{ block['content']|safe }}</p>
+            <hr />
+        {% endif %}
+
+
+    {% endfor %}
         
 {% endblock %}

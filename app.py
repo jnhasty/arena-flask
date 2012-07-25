@@ -5,21 +5,25 @@ from flask import Flask, request, session, url_for, redirect, \
 
 from arena import ArenaPy
 
+# app settings
 app = Flask('arena-flask')
 app.config.from_pyfile('settings.py')
 
+# views
 @app.route('/')
 def index():
     arenapy = ArenaPy()
-    channel = arenapy.get_channel('paperweight')
-
-    info =  arenapy.get_channel_channels_count(channel)
+    
+    channel = arenapy.get_channel('john-michael-boling')
+    title = arenapy.get_channel_title(channel)
+    channel_blocks = channel.get('blocks')
+    channel_blocks = arenapy.sort_blocks_by_created(channel_blocks)
 
     return render_template('content.html', 
-            content = channel['blocks'],
-            channel = channel,
-            info = info,
+            title = title,
+            blocks = channel_blocks,
             )
 
+# run the app
 if __name__ == '__main__':
     app.run()

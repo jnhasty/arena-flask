@@ -3,7 +3,7 @@
 from flask import Flask, request, session, url_for, redirect, \
      render_template, abort, g, flash
 
-from arena import ArenaPy
+import ArenaPy
 
 # app settings
 app = Flask('arena-flask')
@@ -14,7 +14,7 @@ app.config.from_pyfile('settings.py')
 def index():
     arenapy = ArenaPy()
     
-    channel = arenapy.get_channel('john-michael-boling')
+    channel = arenapy.get_channel('arena-influences')
     title = arenapy.get_channel_title(channel)
     channel_blocks = channel.get('blocks')
     channel_blocks = arenapy.sort_blocks_by_created(channel_blocks)

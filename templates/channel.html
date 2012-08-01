@@ -1,0 +1,154 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->    
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- doc title set in js -->
+    <title>{{ page_channel.title }}</title>
+
+    <!-- set client description in content here-->
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ url_for('static', filename='examples.css') }}">
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="page-title">
+            <a href="/">{{ page_channel.title }}</a>
+        </div>
+        <div id="nav" >		
+            <div id="navigation">
+                <ul>
+                {% for item in nav_items %}
+                    <li>
+                        {% if item.type == "Block" %}   
+                            <a href="?block={{ item.id }}" class="results">{{ item.title }}</a>
+                        {% endif %}
+                        {% if item.type == "Channel" %}   
+                            <a href="?channel={{ item.id }}" class="results">{{ item.title }}</a>
+                        {% endif %}
+
+                    </li>
+                {% endfor %}
+                </ul>	
+            </div>		
+        </div>
+
+        <div id="blocks">	
+            {% for block in blocks %}
+                <div id="block">
+                    <div id='block-title'></div>            
+                    {% if block.block_class ==  'image' %}
+                        <div class="entry image">
+                            {% if block.title %}
+                            <div class="entry-title" >
+                                <h2> {{ block.title }} </h2>
+                            </div>
+                            {% endif %}
+                            <div class="entry-content">
+                                <a href="{{ block.image_original }}">
+                                    <img src="{{ block.image_display }}">
+                                </a>
+                            </div>
+                            {% if block.description %}
+                            <div class="entry-description">
+                                {{ block.description|safe }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                
+                    {% if block.block_class == 'media '%}
+                        <div class="entry media">		
+                            {% if block.title %}
+                            <div class="entry-title" >
+                                <h2> {{ block.title }} </h2>
+                            </div>
+                            {% endif %}
+
+                            <div class="entry-content">
+                                {{ block.embed_html|safe }}
+                            </div>
+                            {% if block.description %}
+                            <div class="entry-description">
+                                {{ block.description|safe }}
+                            </div>
+                            {% endif %}
+                        </div>	
+                    {% endif %}
+                
+                    {% if block.block_class == 'link' %}
+                        <div class="entry link">		
+                            {% if block.title %}
+                            <div class="entry-title" >
+                                <h2> {{ block.title }} </h2>
+                            </div>
+                            {% endif %}
+                            <div class="entry-content">
+                                <a href="{{ block.source_url }}">
+                                    <img src="{{ block.image_display }}">
+                                </a>
+                                <br />
+                                <a href="{{ block.source_url }}">
+                                    {{ block.source_url }}
+                                </a>
+                            </div>
+                            {% if block.description %}
+                            <div class="entry-description">
+                                {{ block.description|safe }}
+                            </div>
+                            {% endif %}
+                        </div>	
+                    {% endif %}
+                
+                    {% if block.block_class == 'text' %}
+                        <div class="entry text" >		
+                            {% if block.title %}
+                            <div class="entry-title" >
+                                <h2> {{ block.title }} </h2>
+                            </div>
+                            {% endif %}
+                            <div class="entry-content">
+                                <p>{{ block.content|safe }}</p>
+                            </div>
+                            {% if block.description %}
+                            <div class="entry-description">
+                                {{ block.description|safe }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                </div>	
+                {% endfor %}
+            </div>            
+
+        {% if connections %}
+        <div id="connections">
+            <div class='nav-title'>connections</div>            
+            <ul>
+                {% for connection in connections %}
+                <li class="connection" >		
+                    <a target="_blank" href="http://are.na/#/{{ connection.channel.slug }}" id="connection-box">
+                        {{ connection.channel.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+    	</div>
+        {% endif %}
+
+
+    </div><!-- end wrapper div-->
+
+</body>
+    
+</html>
+
+

@@ -60,7 +60,7 @@ def user():
 def channel():
 
     arena = ArenaPy()
-    
+
     #get the channel you want to show
     page_channel = arena.get_channel('arena-influences')
     nav_items = arena.get_channel_content(page_channel)
@@ -92,7 +92,21 @@ def channel():
             connections = connections,
             )
 
+@app.route('/blog/')
+def channel():
 
+    arena = ArenaPy()
+    channel = arena.get_channel('arena-influences')
+    channel_blocks = arena.get_channel_blocks(channel)
+    blog_content = arena.sort_blocks_by_created(channel_blocks)
+
+    return render_template('blog.html',
+            channel = channel,
+            channel_blocks = channel_blocks,
+            blog_content = blog_content,
+            )
+
+        
 
 # run the app
 if __name__ == '__main__':
